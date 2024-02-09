@@ -63,7 +63,7 @@ async Task Filtering()
 }
 
 //Aggregate Methods
-await AgregateMethods();
+//await AgregateMethods();
 
 async Task AgregateMethods()
 {
@@ -83,4 +83,28 @@ async Task AgregateMethods()
     //Sum
     var sumTeams = await context.Teams.SumAsync(q => q.Id);
 
+}
+
+
+//Group by
+
+async Task Grouping()
+{
+
+    var groupedTeams = await context.Teams
+        //.Where(q => q.Name == "")  -> Translates to a WHERE clause
+        .GroupBy(q => q.CreatedDate.Date).ToListAsync();
+    //.Where(q => ); // -> Translates to a HAVING clause
+
+    var groupedTeamsSomeGroups = context.Teams
+        .GroupBy(q => new { q.CreatedDate.Date, q.Name });
+
+    foreach (var group in groupedTeams)
+    {
+        Console.WriteLine(group.Key);
+        foreach (var item in group)
+        {
+            Console.WriteLine(group.Key);
+        }
+    }
 }
