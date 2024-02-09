@@ -5,12 +5,21 @@ using Microsoft.EntityFrameworkCore;
 using var context = new FootballLeageDbContext();
 
 //Select all teams.
-//GetAllTeams();
+//await GetAllTeams();
+async Task GetAllTeams()
+{
+    var teams = await context.Teams.ToListAsync();
+
+    foreach (var team in teams)
+    {
+        Console.WriteLine(team.Name);
+    }
+}
 
 //Select a single record.
-GetSingleRecord();
+//await GetSingleRecord();
 
-async void GetSingleRecord()
+async Task GetSingleRecord()
 {
     //First one in the list
     var teamOne = await context.Teams.FirstAsync();//Throws an error if no data is founded.
@@ -29,12 +38,13 @@ async void GetSingleRecord()
     var team4 = await context.Teams.FindAsync(5);
 }
 
-void GetAllTeams()
-{
-    var teams = context.Teams.ToList();
+//Fillters to Queries
+await Filtering();
 
-    foreach (var team in teams)
-    {
-        Console.WriteLine(team.Name);
-    }
+async Task Filtering()
+{
+    var teamsFiltered = await context.Teams
+        .Where(q => q.Name == "Tivoli Gardens FC")
+        .ToListAsync();
+
 }
