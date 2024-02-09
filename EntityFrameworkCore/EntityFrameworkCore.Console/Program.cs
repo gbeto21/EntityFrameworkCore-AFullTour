@@ -137,3 +137,27 @@ async Task SkipAndTake()
         .Take(recordCount)
         .ToListAsync();
 }
+
+//Projections and custom types
+async Task ProjectionsAndCustomTypes()
+{
+    var teamsNames = await context.Teams
+        .Select(q => q.Name)
+        .ToListAsync();
+
+    var projectedTeams2 = await context.Teams
+        .Select(q => new { q.Name, q.CreatedDate })
+        .ToListAsync();
+
+    var projectedTeams3 = await context.Teams
+        .Select(q => new TeamInfo { Name = q.Name, TeamId = q.Id })
+        .ToListAsync();
+
+}
+
+class TeamInfo
+{
+    public int TeamId { get; set; }
+
+    public string Name { get; set; }
+}
