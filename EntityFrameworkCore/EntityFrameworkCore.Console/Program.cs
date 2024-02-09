@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 // First we need a instance of context.
 using var context = new FootballLeageDbContext();
 
+#region Using Entity Framework core to query a database.
+
 //Select all teams.
 //await GetAllTeams();
 async Task GetAllTeams()
@@ -166,3 +168,9 @@ async Task Tracking()
         .AsTracking()
         .ToListAsync();
 }
+
+#endregion
+
+#region Using Entity Framework Core to Manipulate Data
+
+#endregion
