@@ -108,3 +108,20 @@ async Task Grouping()
         }
     }
 }
+
+//Order by
+async Task OrderByData()
+{
+    var orderedTeams = await context.Teams
+        .OrderBy(q => q.Name)
+        .ToListAsync();
+
+    var orderedTeamsDes = await context.Teams
+        .OrderByDescending(q => q.Name)
+        .ToListAsync();
+
+    //Gettint the record with a maximum/minimun value.
+    var maxBy = context.Teams.MaxBy(q => q.Id);
+    var minBy = context.Teams.MinBy(q => q.Id);
+
+}
