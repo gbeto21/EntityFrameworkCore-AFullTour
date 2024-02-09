@@ -242,4 +242,23 @@ async Task DeleteOperation()
     context.Remove(coach);
     await context.SaveChangesAsync();
 }
+
+//ExecuteUpdate and ExecuteDelete operations
+async Task ExecuteOperations()
+{
+    /* Execute delete */
+    //This operation executes immediately against the DB,
+    //rather than being deferred until SaveChanges() is called.
+    await context.Coaches
+        .Where(q => q.Name == "Theodore Whitmore")
+        .ExecuteDeleteAsync();
+
+    /* Execute Update */
+    await context.Coaches
+        .Where(q => q.Name == "Jose Mourinho")
+        .ExecuteUpdateAsync(set => set
+            .SetProperty(prop => prop.Name, "Pep Guardiola")
+            .SetProperty(prop => prop.CreatedDate, DateTime.Now)
+         );
+}
 #endregion
