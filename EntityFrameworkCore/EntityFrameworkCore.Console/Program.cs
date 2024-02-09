@@ -1,4 +1,5 @@
 ﻿using EntityFrameWorkCore.Data;
+using EntityFrameWorkCore.Domain;
 using Microsoft.EntityFrameworkCore;
 
 // First we need a instance of context.
@@ -172,5 +173,42 @@ async Task Tracking()
 #endregion
 
 #region Using Entity Framework Core to Manipulate Data
+
+//Insert
+async Task InsertQueries()
+{
+
+    //Simple
+    var newCoach = new Coach
+    {
+        Name = "Jose Mourinho",
+        CreatedDate = DateTime.Now
+    };
+
+    await context.Coaches.AddAsync(newCoach);
+    await context.SaveChangesAsync();
+
+    //Loop
+    var newCoach1 = new Coach
+    {
+        Name = "Jose Mourinho",
+        CreatedDate = DateTime.Now
+    };
+
+    List<Coach> coaches = new List<Coach> { newCoach, newCoach1 };
+
+    foreach (var item in coaches)
+    {
+        await context.Coaches.AddAsync(item);
+    }
+    Console.WriteLine(context.ChangeTracker.DebugView);
+    await context.SaveChangesAsync();
+    Console.WriteLine(context.ChangeTracker.DebugView);
+
+
+    //Batch
+    await context.Coaches.AddRangeAsync(coaches);
+    await context.SaveChangesAsync();
+}
 
 #endregion
