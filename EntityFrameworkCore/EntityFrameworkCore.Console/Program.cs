@@ -235,4 +235,11 @@ async Task UpdateOperation()
     await context.SaveChangesAsync();
 }
 
+//Delete
+async Task DeleteOperation()
+{
+    var coach = await context.Coaches.FindAsync(9);
+    context.Remove(coach);
+    await context.SaveChangesAsync();
+}
 #endregion
