@@ -125,3 +125,15 @@ async Task OrderByData()
     var minBy = context.Teams.MinBy(q => q.Id);
 
 }
+
+//Skip and take
+async Task SkipAndTake()
+{
+    var recordCount = 3;
+    var page = 0;
+    var teams = await context
+        .Teams
+        .Skip(page * recordCount)
+        .Take(recordCount)
+        .ToListAsync();
+}
