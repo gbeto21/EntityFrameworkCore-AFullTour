@@ -211,4 +211,28 @@ async Task InsertQueries()
     await context.SaveChangesAsync();
 }
 
+//Update
+async Task UpdateOperation()
+{
+    //When tracking is enabled:
+    //(FindAsync needs tracking)
+    var coach = await context.Coaches.FindAsync(9);
+    coach.Name = "Trevoir Williams";
+    coach.CreatedDate = DateTime.Now;
+    await context.SaveChangesAsync();
+
+    //When no tracking is enabled:
+    var coachNoTrack = await context.Coaches
+        .AsNoTracking()
+        .FirstOrDefaultAsync(q => q.Id == 9);
+    coachNoTrack.Name = "No tracking";
+    //Update option #1
+    context.Update(coachNoTrack);
+
+    //Update option #2
+    context.Entry(coachNoTrack).State = EntityState.Modified;
+
+    await context.SaveChangesAsync();
+}
+
 #endregion
