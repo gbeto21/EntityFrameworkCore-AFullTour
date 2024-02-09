@@ -47,4 +47,17 @@ async Task Filtering()
         .Where(q => q.Name == "Tivoli Gardens FC")
         .ToListAsync();
 
+    Console.WriteLine("Enter search term");
+    var desiredTeam = Console.ReadLine();
+
+    var partialMatches = await context
+        .Teams
+        .Where(q => q.Name.Contains(desiredTeam))
+        .ToListAsync();
+
+    var partialMatchesTwo = await context
+        .Teams
+        .Where(q => EF.Functions.Like(q.Name, $"%{desiredTeam}%"))
+        .ToListAsync();
+
 }
