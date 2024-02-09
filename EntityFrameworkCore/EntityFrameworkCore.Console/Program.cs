@@ -39,7 +39,7 @@ async Task GetSingleRecord()
 }
 
 //Fillters to Queries
-await Filtering();
+//await Filtering();
 
 async Task Filtering()
 {
@@ -59,5 +59,28 @@ async Task Filtering()
         .Teams
         .Where(q => EF.Functions.Like(q.Name, $"%{desiredTeam}%"))
         .ToListAsync();
+
+}
+
+//Aggregate Methods
+await AgregateMethods();
+
+async Task AgregateMethods()
+{
+    //Count
+    var numberOfTeams = await context.Teams.CountAsync();
+    var numberOfTeamsFiltered = await context.Teams.CountAsync(q => q.Id == 1);
+
+    //Max
+    var maxTeams = await context.Teams.MaxAsync(q => q.Id);
+
+    //Min
+    var minTeams = await context.Teams.MinAsync(q => q.Id);
+
+    //Average
+    var aveTeams = await context.Teams.AverageAsync(q => q.Id);
+
+    //Sum
+    var sumTeams = await context.Teams.SumAsync(q => q.Id);
 
 }
