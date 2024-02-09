@@ -155,9 +155,14 @@ async Task ProjectionsAndCustomTypes()
 
 }
 
-class TeamInfo
+//Tracking vs No Tracking
+async Task Tracking()
 {
-    public int TeamId { get; set; }
+    var teams = await context.Teams
+        .AsNoTracking()
+        .ToListAsync();
 
-    public string Name { get; set; }
+    var teamsTracking = await context.Teams
+        .AsTracking()
+        .ToListAsync();
 }
