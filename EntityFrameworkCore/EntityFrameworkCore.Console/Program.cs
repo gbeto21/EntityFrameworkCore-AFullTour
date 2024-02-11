@@ -387,3 +387,20 @@ async Task filteringRelated()
 }
 
 #endregion
+
+#region Projects and anonymous types
+
+async Task anonymousTypes()
+{
+    var teams = await context.Teams
+        .Select(q => new
+        {
+            TeamId = q.Id,
+            TeamName = q.Name,
+            CoachName = q.Coach.Name,
+            TotalHomeGoals = q.HomeMatches.Sum(x => x.HomeTeamScore),
+            TotalAwayGoals = q.AwayMatches.Sum(x => x.AwayTeamScore)
+        }).ToListAsync();
+}
+
+#endregion
