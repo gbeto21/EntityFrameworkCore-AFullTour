@@ -340,3 +340,23 @@ async Task parentWithChildren()
 }
 
 #endregion
+
+#region Including related data with eager loading
+
+async Task EagerLoading()
+{
+    //This query will include and create the JOIN with the
+    //Teams table.
+    var leagues = await context.Leagues
+        .Include("Teams")
+        .ToListAsync();
+    var leaguesLambda = await context.Leagues
+        .Include(q => q.Teams)
+        .ToListAsync();
+    var leaguesLambdaThen = await context.Leagues
+        .Include(q => q.Teams)
+        .ThenInclude(q => q.Coach)
+        .ToListAsync();
+}
+
+#endregion
