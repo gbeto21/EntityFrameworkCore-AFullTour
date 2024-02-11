@@ -360,3 +360,16 @@ async Task EagerLoading()
 }
 
 #endregion
+
+#region Explicit loading
+
+async Task explicitLoading()
+{
+    var league = await context.Leagues.FindAsync(1);
+
+    await context.Entry(league)
+        .Collection(q => q.Teams)
+        .LoadAsync();
+}
+
+#endregion
