@@ -373,3 +373,17 @@ async Task explicitLoading()
 }
 
 #endregion
+
+#region Filtering on Related Records
+
+async Task filteringRelated()
+{
+    //Get all teams and only home matches where they 
+    //have scored.
+    var teams = await context.Teams
+        .Include("Coach")
+        .Include(q => q.HomeMatches.Where(q => q.HomeTeamScore > 0))
+        .ToListAsync();
+}
+
+#endregion
