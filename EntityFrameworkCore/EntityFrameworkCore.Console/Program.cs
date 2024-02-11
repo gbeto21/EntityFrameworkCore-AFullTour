@@ -262,3 +262,81 @@ async Task ExecuteOperations()
          );
 }
 #endregion
+
+#region Interacting with related records
+
+//Insert record with FK
+async Task RecordWithFK()
+{
+    var match = new Match
+    {
+        AwayTeamId = 1,
+        HomeTeamId = 2,
+        HomeTeamScore = 0,
+        AwayTeamScore = 0,
+        Date = new DateTime(2024, 10, 1),
+        TicketPrice = 20
+    };
+
+    await context.AddAsync(match);
+    await context.SaveChangesAsync();
+}
+
+//Insert Parent/Child
+async Task parentChild()
+{
+    var coah = new Coach
+    {
+        Name = "Hohnson"
+    };
+
+    var team = new Team
+    {
+        Name = "New team",
+        Coach = coah
+    };
+
+    var team2 = new Team
+    {
+        Name = "New team",
+        Coach = new Coach
+        {
+            Name = "Johnson"
+        }
+    };
+
+    await context.AddAsync(team);
+    await context.SaveChangesAsync();
+}
+
+// Insert parent with children
+async Task parentWithChildren()
+{
+    var league = new League
+    {
+        Name = "New Leage",
+        Teams = new List<Team>
+        {
+            new Team
+            {
+                Name = "Juventus",
+                Coach = new Coach
+                {
+                    Name = "Juve Coach"
+                }
+            },
+            new Team
+            {
+                Name = "AC Milan",
+                Coach = new Coach
+                {
+                    Name = "Milan Coach"
+                }
+            }
+        }
+    };
+    await context.AddAsync(league);
+    await context.SaveChangesAsync();
+}
+
+#endregion
